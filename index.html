@@ -61,7 +61,7 @@
     padding: 6px 10px; border-radius: 999px; cursor: pointer;
     border: 1px solid var(--line); background: var(--surface); color: var(--muted);
   }
-  .filters button[aria-pressed="true"] { color: var(--bg); background: var(--text); border-color: var(--text); }
+  .filters button[aria-pressed="true"] { color: var(--bg); }
   .filters button[data-tier="e"][aria-pressed="true"] { background: var(--e); border-color: var(--e); }
   .filters button[data-tier="n"][aria-pressed="true"] { background: var(--n); border-color: var(--n); }
   .filters button[data-tier="l"][aria-pressed="true"] { background: var(--l); border-color: var(--l); }
@@ -93,9 +93,16 @@
   .reads li { padding-left: 14px; position: relative; }
   .reads li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
 
-  /* Tier lists */
-  .tier { margin-top: 12px; }
+  /* Tier lists: coloured stripe shows which tier each block belongs to */
+  html { overflow-anchor: none; } /* scroll position is kept stable in JS instead */
+  .tier { margin-top: 12px; padding-left: 12px; border-left: 3px solid var(--line); }
+  .tier.e { border-left-color: var(--e); }
+  .tier.n { border-left-color: var(--n); }
+  .tier.l { border-left-color: var(--l); }
   .tier[hidden] { display: none; }
+  .tier.appear { animation: appear 0.35s ease-out; }
+  @keyframes appear { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .tier.appear { animation: none; } }
   .badge {
     display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
     padding: 2px 8px; border-radius: 999px; margin-bottom: 6px;
@@ -122,11 +129,10 @@
   <p>What to check on the tag in the shop. EU standards (valid in Bulgaria), checked Nov 2026.</p>
 </header>
 
-<nav class="filters" aria-label="Filter by tier">
-  <button type="button" data-tier="all" aria-pressed="true">All</button>
-  <button type="button" data-tier="e" aria-pressed="false">Essential</button>
-  <button type="button" data-tier="n" aria-pressed="false">Nice to have</button>
-  <button type="button" data-tier="l" aria-pressed="false">Luxury</button>
+<nav class="filters" aria-label="Show items up to tier">
+  <button type="button" data-tier="e" aria-pressed="true">Essential</button>
+  <button type="button" data-tier="n" aria-pressed="false">+ Nice to have</button>
+  <button type="button" data-tier="l" aria-pressed="false">+ Luxury</button>
 </nav>
 
 <section class="minimum">
@@ -292,25 +298,43 @@
 
 </div>
 <script>
-  const buttons = document.querySelectorAll('.filters button');
-  const tiers = document.querySelectorAll('.tier');
-  const sections = document.querySelectorAll('section:not(.minimum)');
+  // Tiers are cumulative: level 0 = Essential, 1 = + Nice to have, 2 = + Luxury.
+  const ORDER = ['e', 'n', 'l'];
+  const bar = document.querySelector('.filters');
+  const buttons = [...bar.querySelectorAll('button')];
+  const tiers = [...document.querySelectorAll('.tier')];
+  const rank = t => ORDER.findIndex(c => t.classList.contains(c));
+  let level = 0;
 
-  function apply(tier) {
-    buttons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.tier === tier)));
-    tiers.forEach(t => { t.hidden = tier !== 'all' && !t.classList.contains(tier); });
-    // Hide sections with no visible tier list (keeps the label decoder, which has none)
-    sections.forEach(s => {
-      const lists = s.querySelectorAll('.tier');
-      s.hidden = lists.length > 0 && [...lists].every(t => t.hidden);
-    });
-    try { localStorage.setItem('tier', tier); } catch (e) {}
+  // Find the first element just below the sticky bar that stays visible in
+  // both the old and new state, so we can keep it at the same screen position.
+  function findAnchor(keepLevel) {
+    const barBottom = bar.getBoundingClientRect().bottom;
+    for (const el of document.querySelectorAll('section h2, .tier li, .note')) {
+      const tier = el.closest('.tier');
+      if (tier && rank(tier) > keepLevel) continue;
+      const r = el.getBoundingClientRect();
+      if (r.height && r.bottom > barBottom) return { el, top: r.top };
+    }
+    return null;
   }
 
-  buttons.forEach(b => b.addEventListener('click', () => apply(b.dataset.tier)));
-  let saved = 'all';
-  try { saved = localStorage.getItem('tier') || 'all'; } catch (e) {}
-  apply(saved);
+  function setLevel(next, animate) {
+    const anchor = findAnchor(Math.min(level, next));
+    level = next;
+    buttons.forEach((b, i) => b.setAttribute('aria-pressed', String(i <= level)));
+    tiers.forEach(t => {
+      const show = rank(t) <= level;
+      if (show && t.hidden && animate) {
+        t.classList.remove('appear'); void t.offsetWidth; t.classList.add('appear');
+      }
+      t.hidden = !show;
+    });
+    if (anchor) window.scrollBy(0, anchor.el.getBoundingClientRect().top - anchor.top);
+  }
+
+  buttons.forEach((b, i) => b.addEventListener('click', () => setLevel(i, true)));
+  setLevel(0, false);
 </script>
 </body>
 </html>
