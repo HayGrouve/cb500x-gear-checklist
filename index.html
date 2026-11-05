@@ -80,18 +80,13 @@
   }
   .note { color: var(--muted); font-size: 0.9rem; margin: 10px 0 0; }
 
-  /* Decoder table */
-  .table-wrap { overflow-x: auto; margin-top: 12px; }
-  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-  th, td { text-align: left; padding: 8px 8px 8px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
-  th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 600; }
-  tr:last-child td { border-bottom: 0; }
-  td:first-child { font-weight: 600; white-space: nowrap; }
   code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.88em; }
 
-  .reads { margin: 14px 0 0; padding: 0; list-style: none; display: grid; gap: 6px; font-size: 0.9rem; }
-  .reads li { padding-left: 14px; position: relative; }
-  .reads li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  /* "On the tag" box: how to read this item's label */
+  .tag { margin-top: 12px; padding: 10px 12px; border-radius: 8px; background: var(--bg); font-size: 0.88rem; }
+  .tag-title { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
+  .tag ul { margin: 0; padding-left: 18px; }
+  .tag li { margin: 2px 0; }
 
   /* Tier lists: coloured stripe shows which tier each block belongs to */
   html { overflow-anchor: none; } /* scroll position is kept stable in JS instead */
@@ -114,10 +109,6 @@
   .tier li { margin: 3px 0; }
   .tier li::marker { color: var(--muted); }
 
-  .minimum { border-color: var(--accent); }
-  .minimum ol { margin: 10px 0 0; padding-left: 22px; }
-  .minimum li { margin: 3px 0; }
-
   footer { margin-top: 28px; color: var(--muted); font-size: 0.82rem; }
 </style>
 </head>
@@ -135,46 +126,13 @@
   <button type="button" data-tier="l" aria-pressed="false">+ Luxury</button>
 </nav>
 
-<section class="minimum">
-  <h2>Minimum kit</h2>
-  <ol>
-    <li>Helmet: <b>ECE 22.06</b></li>
-    <li>Jacket + pants: <b>EN 17092 AA</b> with Level 2 armour</li>
-    <li>Back insert: <b>EN 1621-2 Level 2</b></li>
-    <li>Boots: <b>EN 13634</b> with ankle protection (IPA)</li>
-    <li>Gloves: <b>EN 13594 1KP</b> or better</li>
-    <li>Earplugs</li>
-  </ol>
-</section>
-
-<section>
-  <h2>Label decoder</h2>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th>Item</th><th>Must show</th><th>Better</th></tr></thead>
-      <tbody>
-        <tr><td>Helmet</td><td><b>ECE 22.06</b>: approval no. starts with <code>06</code></td><td>Snell M2025 · SHARP 4–5★ (online rating, not on the tag)</td></tr>
-        <tr><td>Jacket / pants</td><td><b>EN 17092 class AA</b> on the garment</td><td><b>AAA</b></td></tr>
-        <tr><td>Limb armour</td><td><b>EN 1621-1</b></td><td>Level 2 · Type B (covers more area) · T+/T− (tested hot/cold)</td></tr>
-        <tr><td>Back protector</td><td><b>EN 1621-2</b></td><td>Level 2, FB (full back)</td></tr>
-        <tr><td>Chest protector</td><td>EN 1621-3 (optional)</td><td>Level 2</td></tr>
-        <tr><td>Airbag</td><td>EN 1621-4 (covers tethered airbags only)</td><td>Electronic airbags: no finished EN standard yet</td></tr>
-        <tr><td>Boots</td><td><b>EN 13634:2017</b> + 4 digits</td><td><code>2 2 2 2</code> + IPA + WR</td></tr>
-        <tr><td>Gloves</td><td><b>EN 13594:2015 1KP</b></td><td><b>2KP</b> (gauntlet)</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <ul class="reads">
-    <li><b>Helmet letters:</b> P = full-face · P/J = modular, ride open or closed · NP = chin bar doesn't protect. Number starts with <code>05</code> = older 22.05 stock: still legal, but buy 22.06.</li>
-    <li><b>Garment class:</b> AAA heavy · <b>AA touring/ADV (target)</b> · A urban, hip armour optional · B abrasion only, no armour · C armour holder only, no abrasion protection. "CE" on the armour alone doesn't certify the garment.</li>
-    <li><b>Armour levels:</b> Level 2 is better. It lets less impact force through to your body (limbs ≤20 kN vs ≤35 kN for Level 1; back ≤9 kN vs ≤18 kN).</li>
-    <li><b>Boot digits:</b> height · abrasion · cut · crush. The first digit only says height (1 = short, 2 = tall). For the last three, 2 is the better score.</li>
-    <li><b>Gloves:</b> KP = knuckle armour passed the impact test. A glove can have knuckle armour without KP; then it wasn't tested to the standard.</li>
-  </ul>
-</section>
-
 <section>
   <h2>Helmet <span class="std">ECE 22.06</span></h2>
+  <div class="tag"><div class="tag-title">On the tag</div><ul>
+    <li>Sewn on the chin strap: circled E + country number + approval number</li>
+    <li>Number starts with <code>06</code> = 22.06 ✓ · <code>05</code> = older 22.05, still legal but buy 22.06</li>
+    <li>Letter: P = full-face · P/J = modular, ride open or closed · NP = chin bar doesn't protect</li>
+  </ul></div>
   <div class="tier e"><span class="badge">Essential</span><ul>
     <li>22.06 tag on the chin strap</li>
     <li>Fit: wear 10–15 min, firm even pressure, no forehead hot spot</li>
@@ -188,7 +146,8 @@
     <li>Emergency cheek-pad release</li>
     <li>Speaker pockets for comms</li>
     <li>About 1.4–1.6 kg, quiet</li>
-    <li>Several shell sizes · SHARP 4–5★</li>
+    <li>Several shell sizes</li>
+    <li>SHARP 4–5★ (look up online, not on the tag) · Snell M2025 sticker</li>
   </ul></div>
   <div class="tier l"><span class="badge">Luxury</span><ul>
     <li>MIPS / rotational liner</li>
@@ -199,6 +158,11 @@
 
 <section>
   <h2>Jacket + pants <span class="std">EN 17092 AA</span></h2>
+  <div class="tag"><div class="tag-title">On the tag</div><ul>
+    <li>Garment label: motorcyclist pictogram + EN 17092 + class letters</li>
+    <li>AAA heavy · <b>AA touring/ADV (target)</b> · A urban, hip armour optional · B abrasion only, no armour · C armour holder only</li>
+    <li>A CE label on the armour alone doesn't certify the garment</li>
+  </ul></div>
   <div class="tier e"><span class="badge">Essential</span><ul>
     <li>AA or AAA class on the garment label</li>
     <li>Armour included at shoulders, elbows, hips, knees (AA guarantees it's there; check it says Level 2)</li>
@@ -224,20 +188,31 @@
 
 <section>
   <h2>Extra armour <span class="std">EN 1621</span></h2>
+  <div class="tag"><div class="tag-title">On the tag</div><ul>
+    <li>EN 1621-1 limbs (S/E/H/K = shoulder/elbow/hip/knee) · -2 back · -3 chest · -4 airbag</li>
+    <li><b>Level 2 is better:</b> lets less force through to you (limbs ≤20 kN vs ≤35 kN; back ≤9 kN vs ≤18 kN)</li>
+    <li>Type B = covers more area · T+/T− = tested hot/cold · back: FB = full back, CB = spine only</li>
+  </ul></div>
   <div class="tier e"><span class="badge">Essential</span><ul>
     <li>Back protector, EN 1621-2 Level 2. Most jackets only have an empty pocket (~€30–80)</li>
   </ul></div>
   <div class="tier n"><span class="badge">Nice to have</span><ul>
     <li>Swap any Level 1 armour for Level 2</li>
+    <li>Full-back (FB) protector · Type B armour</li>
     <li>Chest protector, EN 1621-3</li>
   </ul></div>
   <div class="tier l"><span class="badge">Luxury</span><ul>
-    <li>Airbag vest: tethered (cheaper, no charging) or electronic (needs charging, maybe a subscription)</li>
+    <li>Airbag vest: tethered (cheaper, no charging, EN 1621-4) or electronic (needs charging, maybe a subscription; no finished EN standard yet)</li>
   </ul></div>
 </section>
 
 <section>
   <h2>Boots <span class="std">EN 13634:2017</span></h2>
+  <div class="tag"><div class="tag-title">On the tag</div><ul>
+    <li>Four digits: height · abrasion · cut · crush, e.g. <code>2 2 2 2</code></li>
+    <li>First digit is only height (1 = short, 2 = tall). For the last three, 2 is better than 1</li>
+    <li>Extra marks: IPA = ankle protector · IPS = shin protector · WR = water-resistant</li>
+  </ul></div>
   <div class="tier e"><span class="badge">Essential</span><ul>
     <li>Last three label digits <code>2 2 2</code> (first digit is only height)</li>
     <li>Ankle protection (IPA)</li>
@@ -260,6 +235,11 @@
 
 <section>
   <h2>Gloves <span class="std">EN 13594:2015</span></h2>
+  <div class="tag"><div class="tag-title">On the tag</div><ul>
+    <li>Level 1 or 2, plus KP if the knuckle armour passed the impact test (1KP, 2KP)</li>
+    <li>Knuckle armour without KP wasn't tested to the standard</li>
+    <li>Level 2 needs a longer cuff, so it's usually a gauntlet</li>
+  </ul></div>
   <div class="tier e"><span class="badge">Essential</span><ul>
     <li>1KP or better</li>
     <li>Leather or tough palm with palm sliders</li>
@@ -310,7 +290,7 @@
   // both the old and new state, so we can keep it at the same screen position.
   function findAnchor(keepLevel) {
     const barBottom = bar.getBoundingClientRect().bottom;
-    for (const el of document.querySelectorAll('section h2, .tier li, .note')) {
+    for (const el of document.querySelectorAll('section h2, .tag li, .tier li, .note')) {
       const tier = el.closest('.tier');
       if (tier && rank(tier) > keepLevel) continue;
       const r = el.getBoundingClientRect();
