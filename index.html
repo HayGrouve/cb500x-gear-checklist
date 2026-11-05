@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CB500X Gear Checklist</title>
+<meta name="description" content="In-shop reference for motorcycle gear: safety standards to check on the tag, and features sorted into essential, nice to have and luxury.">
+<meta name="theme-color" content="#f6f5f2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16171a" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏍️</text></svg>">
+<style>
+  :root {
+    --bg: #f6f5f2;
+    --surface: #ffffff;
+    --text: #1b1c1f;
+    --muted: #63666e;
+    --line: #e4e2dc;
+    --accent: #c8102e;
+    --e: #1f7a4d;  --e-bg: #e3f3ea;
+    --n: #1d5fa8;  --n-bg: #e4eefa;
+    --l: #8a5a00;  --l-bg: #fbf0d9;
+    --radius: 12px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #16171a;
+      --surface: #1f2125;
+      --text: #ecebe8;
+      --muted: #9a9ca3;
+      --line: #2f3238;
+      --accent: #ff5a6e;
+      --e: #6fd3a0;  --e-bg: #173426;
+      --n: #8ab8f0;  --n-bg: #182a40;
+      --l: #e8b95a;  --l-bg: #382b12;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 24px 16px 64px; }
+  header h1 { margin: 0 0 4px; font-size: 1.6rem; letter-spacing: -0.01em; }
+  header h1 span { color: var(--accent); }
+  header p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+
+  /* Sticky filter bar */
+  .filters {
+    position: sticky; top: 0; z-index: 5;
+    margin: 20px -16px 8px; padding: 10px 16px;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    display: flex; gap: 8px; flex-wrap: wrap;
+    border-bottom: 1px solid var(--line);
+  }
+  .filters button {
+    font: inherit; font-size: 0.88rem; font-weight: 600;
+    padding: 6px 12px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--line); background: var(--surface); color: var(--muted);
+  }
+  .filters button[aria-pressed="true"] { color: var(--bg); background: var(--text); border-color: var(--text); }
+  .filters button[data-tier="e"][aria-pressed="true"] { background: var(--e); border-color: var(--e); }
+  .filters button[data-tier="n"][aria-pressed="true"] { background: var(--n); border-color: var(--n); }
+  .filters button[data-tier="l"][aria-pressed="true"] { background: var(--l); border-color: var(--l); }
+
+  section {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 18px 18px 14px;
+    margin-top: 16px;
+  }
+  h2 { margin: 0; font-size: 1.15rem; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .std {
+    font-size: 0.78rem; font-weight: 600; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    color: var(--accent); border: 1px solid currentColor; border-radius: 6px; padding: 1px 6px;
+  }
+  .note { color: var(--muted); font-size: 0.9rem; margin: 10px 0 0; }
+
+  /* Decoder table */
+  .table-wrap { overflow-x: auto; margin-top: 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  th, td { text-align: left; padding: 8px 8px 8px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 600; }
+  tr:last-child td { border-bottom: 0; }
+  td:first-child { font-weight: 600; white-space: nowrap; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.88em; }
+
+  .reads { margin: 14px 0 0; padding: 0; list-style: none; display: grid; gap: 6px; font-size: 0.9rem; }
+  .reads li { padding-left: 14px; position: relative; }
+  .reads li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+  /* Tier lists */
+  .tier { margin-top: 12px; }
+  .tier[hidden] { display: none; }
+  .badge {
+    display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 999px; margin-bottom: 6px;
+  }
+  .tier.e .badge { color: var(--e); background: var(--e-bg); }
+  .tier.n .badge { color: var(--n); background: var(--n-bg); }
+  .tier.l .badge { color: var(--l); background: var(--l-bg); }
+  .tier ul { margin: 0; padding-left: 20px; }
+  .tier li { margin: 3px 0; }
+  .tier li::marker { color: var(--muted); }
+
+  .minimum { border-color: var(--accent); }
+  .minimum ol { margin: 10px 0 0; padding-left: 22px; }
+  .minimum li { margin: 3px 0; }
+
+  footer { margin-top: 28px; color: var(--muted); font-size: 0.82rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>CB500X <span>Gear Checklist</span></h1>
+  <p>What to check on the tag in the shop. EU standards (valid in Bulgaria), checked Nov 2026.</p>
+</header>
+
+<nav class="filters" aria-label="Filter by tier">
+  <button type="button" data-tier="all" aria-pressed="true">All</button>
+  <button type="button" data-tier="e" aria-pressed="false">Essential</button>
+  <button type="button" data-tier="n" aria-pressed="false">Nice to have</button>
+  <button type="button" data-tier="l" aria-pressed="false">Luxury</button>
+</nav>
+
+<section class="minimum">
+  <h2>Minimum kit</h2>
+  <ol>
+    <li>Helmet: <b>ECE 22.06</b></li>
+    <li>Jacket + pants: <b>EN 17092 AA</b> with Level 2 armour</li>
+    <li>Back insert: <b>EN 1621-2 Level 2</b></li>
+    <li>Boots: <b>EN 13634</b> with ankle protection (IPA)</li>
+    <li>Gloves: <b>EN 13594 1KP</b> or better</li>
+    <li>Earplugs</li>
+  </ol>
+</section>
+
+<section>
+  <h2>Label decoder</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Item</th><th>Must show</th><th>Better</th></tr></thead>
+      <tbody>
+        <tr><td>Helmet</td><td><b>ECE 22.06</b>: approval no. starts with <code>06</code></td><td>SHARP 4–5★ · Snell M2025</td></tr>
+        <tr><td>Jacket / pants</td><td><b>EN 17092 class AA</b> on the garment</td><td><b>AAA</b></td></tr>
+        <tr><td>Limb armour</td><td><b>EN 1621-1</b></td><td>Level 2, Type B, T+/T−</td></tr>
+        <tr><td>Back protector</td><td><b>EN 1621-2</b></td><td>Level 2, FB (full back)</td></tr>
+        <tr><td>Chest protector</td><td>EN 1621-3 (optional)</td><td>Level 2</td></tr>
+        <tr><td>Airbag</td><td>EN 1621-4 (tethered)</td><td>—</td></tr>
+        <tr><td>Boots</td><td><b>EN 13634:2017</b> + 4 digits</td><td><code>2 2 2 2</code> + IPA + WR</td></tr>
+        <tr><td>Gloves</td><td><b>EN 13594:2015 1KP</b></td><td><b>2KP</b> (gauntlet)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <ul class="reads">
+    <li><b>Helmet letters:</b> P = full-face · P/J = modular, ride open or closed · NP = chin bar doesn't protect. Number starts with <code>05</code> = old 22.05 stock, skip it.</li>
+    <li><b>Garment class:</b> AAA heavy · <b>AA touring/ADV (target)</b> · A urban, hip armour optional · B no armour · C armour carrier only. "CE" on the armour alone isn't enough.</li>
+    <li><b>Armour levels:</b> Level 2 passes on less force than Level 1, so it protects better.</li>
+    <li><b>Boot digits:</b> height · abrasion · cut · crush. Each is 1 or 2; 2 is better. First digit is just height (1 = short boot).</li>
+    <li><b>Gloves:</b> KP = knuckles impact-tested. Armour without KP was never tested.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Helmet <span class="std">ECE 22.06</span></h2>
+  <div class="tier e"><span class="badge">Essential</span><ul>
+    <li>22.06 tag on the chin strap</li>
+    <li>Fit: wear 10–15 min, firm even pressure, no forehead hot spot</li>
+    <li>Roll-off test: strap it, try to rotate it off forwards. It must stay on</li>
+    <li>Pinlock-ready visor</li>
+    <li>Removable, washable liner</li>
+    <li>Made in the last year (date on the label)</li>
+  </ul></div>
+  <div class="tier n"><span class="badge">Nice to have</span><ul>
+    <li>Internal sun visor</li>
+    <li>Emergency cheek-pad release</li>
+    <li>Speaker pockets for comms</li>
+    <li>About 1.4–1.6 kg, quiet</li>
+    <li>Several shell sizes · SHARP 4–5★</li>
+  </ul></div>
+  <div class="tier l"><span class="badge">Luxury</span><ul>
+    <li>MIPS / rotational liner</li>
+    <li>Carbon shell · built-in comms · photochromic visor</li>
+  </ul></div>
+  <p class="note">Full-face is safest. Modular only if marked P/J. ADV peak only if you'll ride gravel. Replace after any crash or ~5 yrs. Never buy used.</p>
+</section>
+
+<section>
+  <h2>Jacket + pants <span class="std">EN 17092 AA</span></h2>
+  <div class="tier e"><span class="badge">Essential</span><ul>
+    <li>AA or AAA class on the garment label</li>
+    <li>Level 2 armour included at shoulders, elbows, hips, knees</li>
+    <li>Armour stays in place in a riding crouch</li>
+    <li>Adjustable knee-armour height</li>
+    <li>Zip to connect jacket to pants</li>
+    <li>Sleeves cover gloves, legs cover boots when seated</li>
+    <li>Arm and waist adjusters</li>
+  </ul></div>
+  <div class="tier n"><span class="badge">Nice to have</span><ul>
+    <li>Waterproof membrane</li>
+    <li>Large zip vents (summers top 35 °C)</li>
+    <li>Removable thermal liner</li>
+    <li>Reflective / hi-vis panels</li>
+    <li>Chest-protector pocket</li>
+  </ul></div>
+  <div class="tier l"><span class="badge">Luxury</span><ul>
+    <li>Laminated Gore-Tex (outer shell doesn't soak)</li>
+    <li>Airbag jacket</li>
+  </ul></div>
+  <p class="note">Textile suits a CB500X better than leather.</p>
+</section>
+
+<section>
+  <h2>Extra armour <span class="std">EN 1621</span></h2>
+  <div class="tier e"><span class="badge">Essential</span><ul>
+    <li>Back protector, EN 1621-2 Level 2. Most jackets only have an empty pocket (~€30–80)</li>
+  </ul></div>
+  <div class="tier n"><span class="badge">Nice to have</span><ul>
+    <li>Swap any Level 1 armour for Level 2</li>
+    <li>Chest protector, EN 1621-3</li>
+  </ul></div>
+  <div class="tier l"><span class="badge">Luxury</span><ul>
+    <li>Airbag vest: tethered (cheaper, no charging) or electronic (needs charging, maybe a subscription)</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>Boots <span class="std">EN 13634:2017</span></h2>
+  <div class="tier e"><span class="badge">Essential</span><ul>
+    <li>Label rated <code>x 2 2 2</code></li>
+    <li>Ankle protection (IPA)</li>
+    <li>Toe and heel cups</li>
+    <li>Stiff sole: wring it like a towel, it should barely twist</li>
+    <li>Oil-resistant, non-slip sole</li>
+    <li>Secure closure (buckles, BOA or zip + Velcro)</li>
+  </ul></div>
+  <div class="tier n"><span class="badge">Nice to have</span><ul>
+    <li>Tall boot (first digit 2)</li>
+    <li>Shin plate (IPS) · gear-shifter pad</li>
+    <li>Waterproof (WR)</li>
+    <li>Comfortable to walk in</li>
+  </ul></div>
+  <div class="tier l"><span class="badge">Luxury</span><ul>
+    <li>Premium ADV boots with hinged ankle braces</li>
+  </ul></div>
+  <p class="note">Touring boot, or ADV boot if you'll ride gravel. Skip short urban and MX boots.</p>
+</section>
+
+<section>
+  <h2>Gloves <span class="std">EN 13594:2015</span></h2>
+  <div class="tier e"><span class="badge">Essential</span><ul>
+    <li>1KP or better</li>
+    <li>Leather or tough palm with palm sliders</li>
+    <li>Knuckle armour</li>
+    <li>Wrist strap</li>
+    <li>Stitching on the outside or doubled on the fingers</li>
+  </ul></div>
+  <div class="tier n"><span class="badge">Nice to have</span><ul>
+    <li>2KP gauntlet</li>
+    <li>Scaphoid (wrist-bone) protection</li>
+    <li>Little-finger bridge</li>
+    <li>Touchscreen fingertips</li>
+    <li>Separate summer and winter pairs</li>
+  </ul></div>
+  <div class="tier l"><span class="badge">Luxury</span><ul>
+    <li>Laminated waterproof</li>
+    <li>Heated gloves on the bike's 12 V</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>Cheap extras</h2>
+  <div class="tier n"><span class="badge">Nice to have</span><ul>
+    <li>Earplugs: wind noise damages hearing at motorway speed</li>
+    <li>Neck tube</li>
+    <li>Merino or synthetic base layer (no cotton)</li>
+    <li>Hi-vis vest</li>
+  </ul></div>
+</section>
+
+<footer>
+  Some test figures come from test labs and retailers, since the official standards are paid documents. Revisions to EN 1621-2 and the airbag standards are in progress but not yet published.
+</footer>
+
+</div>
+<script>
+  const buttons = document.querySelectorAll('.filters button');
+  const tiers = document.querySelectorAll('.tier');
+  const sections = document.querySelectorAll('section:not(.minimum)');
+
+  function apply(tier) {
+    buttons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.tier === tier)));
+    tiers.forEach(t => { t.hidden = tier !== 'all' && !t.classList.contains(tier); });
+    // Hide sections with no visible tier list (keeps the label decoder, which has none)
+    sections.forEach(s => {
+      const lists = s.querySelectorAll('.tier');
+      s.hidden = lists.length > 0 && [...lists].every(t => t.hidden);
+    });
+    try { localStorage.setItem('tier', tier); } catch (e) {}
+  }
+
+  buttons.forEach(b => b.addEventListener('click', () => apply(b.dataset.tier)));
+  let saved = 'all';
+  try { saved = localStorage.getItem('tier') || 'all'; } catch (e) {}
+  apply(saved);
+</script>
+</body>
+</html>
